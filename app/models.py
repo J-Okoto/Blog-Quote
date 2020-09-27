@@ -1,8 +1,10 @@
-class Quote:
-    '''
-    Quote class to define Quote Objects
-    '''
+from . import db
 
-    def __init__(self,quote,author):
-        self.quote = quote
-        self.author = author
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), nullable=True, unique=True)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f'User {self.username}'
