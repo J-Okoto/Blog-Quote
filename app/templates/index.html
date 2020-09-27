@@ -1,4 +1,4 @@
-
+{% extends 'base.html'%}
 {%from 'display_quote_macro.html' import display_quotes%}
 
 <!DOCTYPE html>
@@ -10,7 +10,9 @@
        
     </head>
     <body>
+        {% block content %}
        <p>Welcome to my Quote Blog</p>
        <h1>{{display_quotes(quotes)}}</h1>
+       {% endblock%}
     </body>
 </html>
