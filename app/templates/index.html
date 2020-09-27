@@ -1,3 +1,6 @@
+
+{%from 'display_quote_macro.html' import display_quotes%}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,5 +11,6 @@
     </head>
     <body>
        <p>Welcome to my Quote Blog</p>
+       <h1>{{display_quotes(quotes)}}</h1>
     </body>
 </html>
