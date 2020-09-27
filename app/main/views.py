@@ -1,6 +1,6 @@
 import os
 
-from flask import render_template
+from flask import render_template,request,redirect,url_for
 from . import main
 from app.requests import getQuotes
 # Views

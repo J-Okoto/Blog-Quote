@@ -9,8 +9,14 @@
         {% endif %}
     </head>
     <body>
-        <!-- Content block -->
+        
 
         {% extends 'bootstrap/base.html'%}
+
+        <!-- Navbar block  --> 
+        {% block navbar %}
+        {% include 'navbar.html' %}
+        {% endblock %}
+        <!-- Content block -->
     </body>
 </html>
