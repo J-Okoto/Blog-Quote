@@ -3,6 +3,10 @@ import os
 from flask import render_template,request,redirect,url_for
 from . import main
 from app.requests import getQuotes
+
+from app import db
+from .forms import PostForm
+
 # Views
 @main.route('/')
 def index():
@@ -13,3 +17,6 @@ def index():
     quotes=getQuotes()
     title='Quotes Blog'
     return render_template('index.html',title=title,quotes=quotes)
+
+
+
