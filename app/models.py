@@ -3,11 +3,10 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from flask import session 
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
@@ -17,31 +16,35 @@ class User(UserMixin,db.Model):
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
     posts = db.relationship('Post', backref='author', lazy=True)
     comment = db.relationship('Comment', backref='author', lazy=True)
-    pass_secure= db.Column(db.String(255))
+    pass_secure = db.Column(db.String(255))
 
-    @property
-    def password(self):
-        raise AttributeError('You cannot read the password attribute')
-
-    @password.setter
-    def password(self, password):
-        self.pass_secure = generate_password_hash(password)
-
-
-    def verify_password(self,password):
-        return check_password_hash(self.pass_secure,password)
-    
     def save(self):
         db.session.add(self)
         db.session.commit()
 
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
+    
+
+    
+        @property
+        def password(self):
+            raise AttributeError('You cannot read the password attribute')
+
+        @password.setter
+        def password(self, password):
+            self.pass_secure = generate_password_hash(password)
 
 
-    def __repr__(self):
-        return f'User {self.username},Email: {self.email}'
+        def verify_password(self,password):
+            return check_password_hash(self.pass_secure,password)
+
+
+        def __repr__(self):
+                return f'User: {self.username} Email: {self.email}'
+
+@login_manager.user_loader
+def user_loader(user_id):
+    return User.query.get(user_id)
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
