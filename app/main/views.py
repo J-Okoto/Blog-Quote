@@ -1,6 +1,6 @@
 import os
 
-from flask import render_template,request, redirect, url_for, abort
+from flask import render_template,request, redirect, url_for, abort,flash
 from . import main
 from .forms import PostForm
 from ..models import Post
@@ -33,3 +33,12 @@ def new_post():
         return redirect(url_for('main.index'))
     return render_template('new_post.html', title='New Post',
                            form=form, legend='New Post')
+
+@main.route("/post/<int:post_id>")
+@login_required
+def mypost(post_id):
+    comments = Comment.query.filter_by(post_id=post_id).all()
+    print(comments)
+    heading = 'comments'
+    post = Post.query.get_or_404(post_id)
+    return render_template('posts.html', title=post.title, post=post, comments=comments, heading=heading)
