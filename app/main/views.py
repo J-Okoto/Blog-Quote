@@ -6,6 +6,7 @@ from .forms import PostForm
 from ..models import Post
 from .. import db
 from app.requests import getQuotes
+from flask_login import login_required
 
 # Views
 @main.route('/')
@@ -22,7 +23,7 @@ def index():
 
 
 @main.route("/new_post", methods=['GET', 'POST'])
-
+@login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
