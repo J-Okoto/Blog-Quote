@@ -6,7 +6,7 @@ from .forms import PostForm
 from ..models import Post
 from .. import db
 from app.requests import getQuotes
-from flask_login import login_required
+from flask_login import login_required,current_user
 
 # Views
 @main.route('/')
@@ -18,7 +18,7 @@ def index():
     quotes=getQuotes()
     posts = Post.query.all()
     title='Quotes Blog'
-    return render_template('index.html',title=title,quotes=quotes,posts=posts)
+    return render_template('index.html',title=title,quotes=quotes,posts=posts, current_user=current_user)
 
 
 
@@ -27,7 +27,7 @@ def index():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data)
+        post = Post(title=form.title.data, content=form.content.data,author=current_user)
         post.save()
         flash('Your post has been created!', 'success')
         return redirect(url_for('main.index'))

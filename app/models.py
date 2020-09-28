@@ -17,7 +17,7 @@ class User(UserMixin,db.Model):
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
     posts = db.relationship('Post', backref='author', lazy=True)
     comment = db.relationship('Comment', backref='author', lazy=True)
-    password_hash = db.Column(db.String(255))
+    pass_secure= db.Column(db.String(255))
 
     @property
     def password(self):
