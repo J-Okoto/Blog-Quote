@@ -7,8 +7,19 @@ class User(db.Model):
     username = db.Column(db.String(255),index = True) 
     email = db.Column(db.String(255),unique = True,index = True)
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
+    posts = db.relationship('Post', backref='author', lazy=True)
+    comment = db.relationship('Comment', backref='author', lazy=True)
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
     def __repr__(self):
-        return f'User {self.username}'
+        return f'User {self.username},Email: {self.email}'
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -40,6 +51,27 @@ class Post(db.Model):
         return f'Post title: {self.title}, Date Posted: {self.date_posted}, Post Content: {self.content}'
 
 
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    comment = db.Column(db.Text())
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls, post_id):
+        comments = Comment.query.filter_by(post_id=post_id).all()
+        return comments
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f'Comments: {self.comment}'
 
 
