@@ -3,7 +3,7 @@ import os
 from flask import render_template,request, redirect, url_for, abort,flash
 from . import main
 from .forms import PostForm
-from ..models import Post
+from ..models import Post,Comment
 from .. import db
 from app.requests import getQuotes
 from flask_login import login_required,current_user
@@ -42,3 +42,11 @@ def mypost(post_id):
     heading = 'comments'
     post = Post.query.get_or_404(post_id)
     return render_template('posts.html', title=post.title, post=post, comments=comments, heading=heading)
+
+@main.route('/comment/<post_id>', methods=['Post', 'GET'])
+
+def comment(post_id):
+    comment = request.form.get('newcomment')
+    new_comment = Comment(comment=comment, user_id=current_user._get_current_object().id, post_id=post_id)
+    new_comment.save()
+    return redirect(url_for('main.mypost', post_id=post_id))

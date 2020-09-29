@@ -19,6 +19,8 @@
     </head>
     <body>
         {% block content %}
+
+       
        <h1>Welcome to my Quote Blog</h1>
        <h2>{{display_quotes(quotes)}}</h2>
 
@@ -36,7 +38,9 @@
         <p class="article-content">{{ post.content }}</p>
     </div>
 </article>
+
 {% endfor %}
+      
        {% endblock%}
     </body>
 </html>

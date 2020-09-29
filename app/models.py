@@ -1,14 +1,12 @@
 from . import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin,current_user
 from . import login_manager
-from flask import session 
 
 
-@login_manager.user_loader
-def user_loader(user_id):
-    return User.query.get(user_id)
+
+
 
 
 class User(UserMixin,db.Model):
@@ -44,7 +42,9 @@ class User(UserMixin,db.Model):
     def __repr__(self):
             return f'User: {self.username} Email: {self.email}'
 
-
+@login_manager.user_loader
+def user_loader(user_id):
+    return User.query.get(user_id)
 
 class Role(db.Model):
     __tablename__ = 'roles'
