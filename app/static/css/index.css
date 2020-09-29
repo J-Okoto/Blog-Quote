@@ -1,16 +1,8 @@
 h1{text-align: center;}
 
 body {
-    background: #02576c;
+    background: #dce1e2;
     color: white;
+    text-align: center;
     
   }
-
-  .content-section {
-    margin:8px;
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    padding-bottom: 20px;
-  }  
